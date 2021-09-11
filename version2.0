@@ -1,0 +1,169 @@
+import java.util.Scanner;
+
+import java.util.*;
+import java.util.Arrays;
+import java.util.ArrayList;
+
+
+public class Project2
+{
+    public static void main(String[] args)
+    {
+        getStudentInfo();
+       
+    }
+    static void getStudentInfo()
+    {
+        Scanner sc = new Scanner(System.in);
+
+        String [] Name = new String[5];
+        
+
+        for(int i = 0; i < Name.length; i++) {
+
+            System.out.print("Enter student name: ");
+
+            Name[i] = sc.nextLine();
+        }
+
+        int[][] score = new int[5][5];
+
+        Scanner in = new Scanner(System.in);
+
+        for(int row = 0; row< score.length; row++){
+            for(int col = 0 ;col< score[row].length; col++){
+
+                System.out.println("Enter grade for each course for " + Name[row] +
+                        " ");
+                //Prompting to enter course grade
+                System.out.println("ex" + (col+1) + ": ");
+
+                int scores = in.nextInt();
+                if (ValidateUserInput(scores)== false) {
+                    System.out.println("You shall not insert a value below 0 or bigger than 100! Try it again");
+                    scores = in.nextInt();
+                }
+                score [row][col] = scores;
+
+
+            }
+            System.out.println();
+            findLowest(score[row]);
+            findHighest(score[row]);
+            
+            
+           
+            
+            //calcScore(score[row]);
+            double aver = calcScore(score[row]);
+            
+            print(Name, score, aver);
+
+        }
+
+        System.out.println(Arrays.deepToString(score));
+
+
+    }
+
+
+    static boolean ValidateUserInput(int score) {
+
+
+
+        while (score < 0 || score > 100) {
+            return false;
+        }
+        return true;
+
+
+    }
+
+
+
+
+    public static int findHighest(int[] numbers) {
+        int temp;
+        for (int i = 0; i < numbers.length; i++) {
+            for (int j = i + 1; j < numbers.length; j++) {
+                if (numbers[i] > numbers[j]) {
+                    temp = numbers[i];
+                    numbers[i] = numbers[j];
+                    numbers[j] = temp;
+
+                }
+            }
+        }
+
+        //System.out.println("The maxvalue is " + numbers[numbers.length -1]);
+        return numbers[numbers.length -1];
+    }
+
+
+    public static int findLowest(int[] numbers) {
+        int temp;
+        for (int i = 0; i < numbers.length; i++) {
+            for (int j = i + 1; j < numbers.length; j++) {
+                if (numbers[i] > numbers[j]) {
+                    temp = numbers[i];
+                    numbers[i] = numbers[j];
+                    numbers[j] = temp;
+                }
+            }
+        }
+
+        //System.out.println("The minvalue is " +numbers[0]);
+        return numbers[0];
+    }
+
+
+
+
+    static double calcScore(int[]score)
+    {
+    	double sum = 0;
+    	double average = 0;
+     
+
+        for(int column = 0; column < score.length; column++) {
+
+                sum= sum + score[column];
+                sum = Math.round(sum);
+                
+                average = (sum-findHighest(score)- findLowest(score)) /3;
+        }
+       
+       // double average = (sum-findHighest(score)- findLowest(score)) /3;
+
+      
+        
+        
+        //System.out.println("The average is " + average);
+        
+       
+        
+        return average;
+        
+    }
+
+
+    static void print(String[] name, int[][] score, double d)
+    {	
+    	System.out.print("Student Name    ex1  |  ex2  |  ex3  |  ex4  |  ex5  | Average \n");
+    	for (int row=0; row< score.length; row++) {
+    		System.out.print( name[row] +"      ");
+ 
+			for(int column = 0; column < score[row].length; column++)
+			{
+				System.out.println(score[row][column] +"      ");
+				
+				// need to pass calcScore here to print it under Average
+			}
+	
+			System.out.println();	
+		}//end for
+    	
+    	
+    	
+    }
+}
